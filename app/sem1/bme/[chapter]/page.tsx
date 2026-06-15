@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { Righteous } from "next/font/google";
-import { Ch0Content } from "../content/chapter0";   // ← only ch0 for now
+import { Ch0Content } from "../content/chapter0";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
-import { chapters, Chapter, SubTopic } from "../constants";  // ← cle constants
-import ReadingTime from "@/app/components/ReadingTime";
+import { chapters, Chapter, SubTopic } from "../constants";
 
 function findChapterOrSubtopic(chapterId: string) {
   const chapter = chapters.find((c) => c.id === chapterId);
@@ -27,7 +26,6 @@ const righteous = Righteous({
   variable: "--font-righteous",
 });
 
-// Only ch0 is available for now — more chapters added in future PRs
 const chapterComponents: Record<string, React.ComponentType> = {
   ch0: Ch0Content,
 };
@@ -43,8 +41,8 @@ export async function generateMetadata({
   const { data: chapterData } = findChapterOrSubtopic(chapterId);
 
   const title = chapterData
-    ? `${chapterData.title} | Cyber Laws and Ethics | openCSE`  // ← subject name
-    : "Cyber Laws and Ethics | openCSE";
+    ? `${chapterData.title} | Basics of Mechanical Engineering | openCSE`
+    : "Basics of Mechanical Engineering | openCSE";
 
   return { title };
 }
@@ -63,7 +61,7 @@ export default async function ChapterPage({ params }: ChapterProps) {
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-[#e2d1c1]">
         <h1 className="text-2xl font-bold mb-4">Chapter not found</h1>
         <Link
-          href="/sem5/cle/ch0"   // ← cle path
+          href="/sem1/bme/ch0"
           className="px-4 py-2 bg-[#e2d1c1] text-[#1b0d00] rounded hover:bg-[#ac9e91] transition font-bold"
         >
           Return to Course Outline
@@ -107,25 +105,22 @@ export default async function ChapterPage({ params }: ChapterProps) {
   }
 
   return (
-    <div className="flex flex-col bg-[#1B0D00] min-h-full p-2 pt-6 text-[#e2d1c1]">
+    <div className="flex flex-col bg-[#1B0D00] min-h-full p-2 pt-16 text-[#e2d1c1]">
       <div className="flex-1">
         <h1 className={`text-4xl font-bold ${righteous.className} mb-2`}>
-          Cyber Laws and Ethics    {/* ← subject name */}
+          Basics of Mechanical Engineering
         </h1>
 
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-[-8px]">
-          <p className={`text-2xl ${righteous.className}`}>
-            {isSubTopic && parentChapter
-              ? `${parentChapter.title} / ${chapterData.title}`
-              : chapterData.title}
-          </p>
-          <ReadingTime chapterKey={chapterId} />
-        </div>
+        <p className={`text-2xl mt-[-8px] ${righteous.className}`}>
+          {isSubTopic && parentChapter
+            ? `${parentChapter.title} / ${chapterData.title}`
+            : chapterData.title}
+        </p>
 
         <div className="flex justify-between mt-3">
           {prevChapter ? (
             <Link
-              href={`/sem5/cle/${prevChapter.id}`}   // ← cle path
+              href={`/sem1/bme/${prevChapter.id}`}
               className="px-4 py-1 text-2xl flex items-center justify-center bg-[#e2d1c1] text-[#1b0d00] rounded hover:bg-[#ac9e91] transition"
               style={{ fontFamily: "Rockwell, Serif, serif" }}
             >
@@ -136,7 +131,7 @@ export default async function ChapterPage({ params }: ChapterProps) {
           )}
           {nextChapter ? (
             <Link
-              href={`/sem5/cle/${nextChapter.id}`}   // ← cle path
+              href={`/sem1/bme/${nextChapter.id}`}
               className="px-4 py-1 text-2xl flex items-center justify-center bg-[#e2d1c1] text-[#1b0d00] rounded hover:bg-[#ac9e91] transition"
               style={{ fontFamily: "Rockwell, Serif, serif" }}
             >
@@ -149,25 +144,22 @@ export default async function ChapterPage({ params }: ChapterProps) {
 
         <hr className="my-6 border-t-3" />
 
-        {/* Show content if available, else show coming soon message */}
-        <div id="reading-content">
-          {ChapterComponent ? (
-            <ChapterComponent />
-          ) : (
-            <div className="text-center py-12 text-[#c7a669]">
-              <p className="text-2xl font-semibold">Coming Soon</p>
-              <p className="mt-2 text-lg opacity-70">
-                This chapter is under development. Check back soon!
-              </p>
-            </div>
-          )}
-        </div>
+        {ChapterComponent ? (
+          <ChapterComponent />
+        ) : (
+          <div className="text-center py-12 text-[#c7a669]">
+            <p className="text-2xl font-semibold">Coming Soon</p>
+            <p className="mt-2 text-lg opacity-70">
+              This chapter is under development. Check back soon!
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="flex justify-between my-8">
         {prevChapter ? (
           <Link
-            href={`/sem5/cle/${prevChapter.id}`}   // ← cle path
+            href={`/sem1/bme/${prevChapter.id}`}
             className="px-4 py-2 bg-[#e2d1c1] text-xl flex items-center justify-center text-[#1b0d00] rounded hover:bg-[#ac9e91] transition"
             style={{ fontFamily: "Rockwell, Serif, serif" }}
           >
@@ -178,11 +170,11 @@ export default async function ChapterPage({ params }: ChapterProps) {
         )}
         {nextChapter ? (
           <Link
-            href={`/sem5/cle/${nextChapter.id}`}   // ← cle path
+            href={`/sem1/bme/${nextChapter.id}`}
             className="px-4 py-2 bg-[#e2d1c1] text-xl flex items-center justify-center text-[#1b0d00] rounded hover:bg-[#ac9e91] transition"
             style={{ fontFamily: "Rockwell, Serif, serif" }}
           >
-            {nextChapter.title} {" "}
+            {nextChapter.title}{" "}
             <ArrowBigRight className="inline-block ml-1" />
           </Link>
         ) : (
