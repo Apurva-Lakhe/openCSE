@@ -44,6 +44,11 @@ import { XaiEthicsContent } from "../content/xai-ethics";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { chapters, Chapter, SubTopic } from "../constants";
 
+import BookmarkButton from "../../../components/BookmarkButton";
+
+import { moduleQuizzes } from "@/lib/quizData";
+import ChapterQuizInline from "../components/ChapterQuizInline";
+
 function findChapterOrSubtopic(chapterId: string) {
   const chapter = chapters.find((c) => c.id === chapterId);
   if (chapter) return { data: chapter, isSubTopic: false, parentChapter: null };
@@ -116,7 +121,7 @@ export async function generateMetadata({ params }: ChapterProps): Promise<Metada
   const { chapter: chapterId } = await params;
   const { data: chapterData } = findChapterOrSubtopic(chapterId);
 
-  const title = chapterData 
+  const title = chapterData
     ? `${chapterData.title} | Machine Learning | openCSE`
     : "Machine Learning | openCSE";
 
@@ -125,14 +130,14 @@ export async function generateMetadata({ params }: ChapterProps): Promise<Metada
 
 export default async function ChapterPage({ params }: ChapterProps) {
   const { chapter: chapterId } = await params;
-  
+
   const { data: chapterData, isSubTopic, parentChapter } = findChapterOrSubtopic(chapterId);
 
   if (!chapterData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-[#e2d1c1]">
         <h1 className="text-2xl font-bold mb-4">Chapter not found</h1>
-        <Link 
+        <Link
           href="/sem6/ml/ch0"
           className="px-4 py-2 bg-[#e2d1c1] text-[#1b0d00] rounded hover:bg-[#ac9e91] transition font-bold"
         >
@@ -150,7 +155,7 @@ export default async function ChapterPage({ params }: ChapterProps) {
   if (isSubTopic && parentChapter && parentChapter.subTopics) {
     const pageSubTopics = parentChapter.subTopics.filter((s): s is SubTopic & { isPage: true } => !!s.isPage);
     const subIndex = pageSubTopics.findIndex(s => s.id === chapterId);
-    
+
     if (subIndex > 0) {
       prevChapter = pageSubTopics[subIndex - 1];
     } else {
@@ -173,6 +178,19 @@ export default async function ChapterPage({ params }: ChapterProps) {
     nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
   }
 
+  const chapterQuizSlugMap: Record<string, string> = {
+    "ch1": "ml-intro",
+    "ch2-data-preprocessing": "ml-data-preprocessing",
+    "ch2-dimensionality-reduction": "ml-dimensionality-reduction",
+    "ch2-pca-deep-dive": "ml-pca-deep-dive",
+    "ch2-advanced-dim-reduction": "ml-advanced-dim-reduction",
+    "ch2-feature-selection": "ml-feature-selection",
+    "ch2-regression-models": "ml-regression-models",
+    "ch2-regression-evaluation": "ml-regression-evaluation",
+    "ch2-multicollinearity": "ml-multicollinearity",
+  };
+  const chapterQuiz = moduleQuizzes.find((quiz) => quiz.slug === chapterQuizSlugMap[chapterId]);
+
   return (
     <div className="flex flex-col bg-[#1B0D00] min-h-full p-2 pt-6 text-[#e2d1c1]">
       <div className="flex-1">
@@ -180,9 +198,14 @@ export default async function ChapterPage({ params }: ChapterProps) {
           Machine Learning
         </h1>
 
-        <p className={`text-2xl mt-[-8px] ${righteous.className}`}>
-          {isSubTopic && parentChapter ? `${parentChapter.title} / ${chapterData.title}` : chapterData.title}
-        </p>
+        <div className="flex items-center justify-between">
+          <p className={`text-2xl mt-[-8px] ${righteous.className}`}>
+            {isSubTopic && parentChapter ? `${parentChapter.title} / ${chapterData.title}` : chapterData.title}
+          </p>
+          <BookmarkButton  title={`ML: ${chapterData.title}`} />
+        </div>
+
+
 
         {/* Navigation */}
         <div className="flex justify-between mt-3">
@@ -213,6 +236,12 @@ export default async function ChapterPage({ params }: ChapterProps) {
 
         <hr className="my-6 border-t-3" />
         <ChapterComponent />
+
+        {chapterQuiz ? (
+          <div className="mt-12">
+            <ChapterQuizInline quiz={chapterQuiz} />
+          </div>
+        ) : null}
       </div>
 
       {/* Bottom Navigation */}
