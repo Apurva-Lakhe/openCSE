@@ -12,6 +12,7 @@ import { Ch6Content } from "../content/chapter6";
 
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { Righteous } from "next/font/google";
+import ReadingTime from "@/app/components/ReadingTime";
 
 const righteous = Righteous({
   subsets: ["latin"],
@@ -64,11 +65,14 @@ export default async function ChapterPage({ params }: ChapterProps) {
           Database Management Systems
         </h1>
 
-        <div className="flex items-center justify-between">
-          <p className={`text-2xl mt-[-8px] ${righteous.className}`}>
-            {chapter.title}
-          </p>
-          <BookmarkButton title={`DBMS: ${chapter.title}`} />
+        <div className="flex flex-wrap items-start justify-between gap-y-2">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-[-8px]">
+            <p className={`text-2xl ${righteous.className}`}>
+              {chapter.title}
+            </p>
+            <ReadingTime chapterKey={chapter.id} />
+          </div>
+          <BookmarkButton  title={`DBMS: ${chapter.title}`} />
         </div>
 
         <div className="flex justify-between mt-3">
@@ -101,7 +105,9 @@ export default async function ChapterPage({ params }: ChapterProps) {
 
         <hr className="my-6 border-t-3" />
 
-        <ChapterComponent />
+        <div id="reading-content">
+          <ChapterComponent />
+        </div>
       </div>
 
       <div className="flex justify-between my-8">
