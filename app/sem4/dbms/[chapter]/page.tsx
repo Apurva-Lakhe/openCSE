@@ -4,9 +4,9 @@ import { Ch1Content } from "../content/chapter1";
 import { Ch2Content } from "../content/chapter2";
 import { Ch3Content } from "../content/chapter3";
 import BookmarkButton from "../../../components/BookmarkButton";
-// import { Ch4Content } from "../content/chapter4";
-// import { Ch5Content } from "../content/chapter5";
-// import { Ch6Content } from "../content/chapter6";
+import { Ch4Content } from "../content/chapter4";
+import { Ch5Content } from "../content/chapter5";
+import { Ch6Content } from "../content/chapter6";
 // import { Ch7Content } from "../content/chapter7";
 // import { Ch8Content } from "../content/chapter8";
 
@@ -25,10 +25,18 @@ const chapters = [
   { id: "ch1", title: "Introduction to Databases", component: Ch1Content },
   { id: "ch2", title: "Entity-Relationship Model", component: Ch2Content },
   { id: "ch3", title: "Relational Model and SQL", component: Ch3Content },
-  // { id: "ch4", title: "Normalization", component: Ch4Content },
-  // { id: "ch5", title: "Transactions and Concurrency Control", component: Ch5Content },
-  // { id: "ch6", title: "Indexing and Hashing", component: Ch6Content },
-  // { id: "ch7", title: "Query Processing and Optimization", component: Ch7Content },
+  { id: "ch4", title: "Normalization", component: Ch4Content },
+  {
+    id: "ch5",
+    title: "Transactions and Concurrency Control",
+    component: Ch5Content,
+  },
+  { id: "ch6", title: "Indexing and Hashing", component: Ch6Content }
+  // ,{
+  //   id: "ch7",
+  //   title: "Query Processing and Optimization",
+  //   component: Ch7Content,
+  // },
   // { id: "ch8", title: "Recovery and Security", component: Ch8Content },
 ];
 
@@ -47,7 +55,8 @@ export default async function ChapterPage({ params }: ChapterProps) {
 
   const ChapterComponent = chapter.component;
   const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1] : null;
-  const nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
+  const nextChapter =
+    currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
 
   return (
     <div className="flex flex-col bg-[#1B0D00] min-h-full p-2 pt-6 text-[#e2d1c1]">
@@ -76,7 +85,9 @@ export default async function ChapterPage({ params }: ChapterProps) {
               <ArrowBigLeft className="inline-block mr-1" />
               Previous
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
 
           {nextChapter ? (
             <Link
@@ -87,7 +98,9 @@ export default async function ChapterPage({ params }: ChapterProps) {
               Next
               <ArrowBigRight className="inline-block ml-1" />
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
         </div>
 
         <hr className="my-6 border-t-3" />
@@ -107,7 +120,9 @@ export default async function ChapterPage({ params }: ChapterProps) {
             <ArrowBigLeft className="inline-block mr-1" />
             {prevChapter.title}
           </Link>
-        ) : <div />}
+        ) : (
+          <div />
+        )}
 
         {nextChapter ? (
           <Link
@@ -118,7 +133,9 @@ export default async function ChapterPage({ params }: ChapterProps) {
             {nextChapter.title}
             <ArrowBigRight className="inline-block ml-1" />
           </Link>
-        ) : <div />}
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );
