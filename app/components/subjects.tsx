@@ -129,7 +129,7 @@ const subjectCodes: Record<string, string> = {
 };
 
 // Available subjects
-const available = ["ep", "c", "em1", "em2", "oops", "dsc", "coa", "os", "ml", "dops", "cd", "cle", "ec", "dbms", "bme", "cns", "vlsi", "eas"];
+const available = ["ep", "c", "em1", "em2", "oops", "dsc", "coa", "os", "ml", "dops", "cd", "cle", "ec", "dbms", "bme", "cns", "vlsi", "mb"];
 
 export default function SubjectsSection() {
   return (
